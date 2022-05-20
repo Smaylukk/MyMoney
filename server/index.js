@@ -5,6 +5,7 @@ const sequelize = require('./db')
 const models = require('./models/models');
 const router = require('./routes/index');
 const errorMiddleware = require('./middlewares/errorMiddleware');
+const startService = require('./services/startService');
 
 
 const app = express()
@@ -22,11 +23,17 @@ app.get('/', (req, res) => res.send('Hello World!'))
 const start = async () => {
   try {
     await sequelize.authenticate();
-    await sequelize.sync({ force:false });
+    sequelize.sync({ force:false })
+      .then((data) => {
+        startService.initTable()
+      })
+      .catch(reason => {throw new Error(JSON.stringify(reason))})
 
-    app.listen(port, () => console.log(`Example app listening on port ${port}!`)) 
+    app.listen(
+      port, 
+      () => console.log(`Server start on port ${port}!`)) 
   } catch (error) {
-    console.log('start - ',error);
+    console.log('start error - ',error);
   }
 }
 
