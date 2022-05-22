@@ -21,7 +21,7 @@ class UserController {
       const payload = {
         id: user.id,
         email,
-        role
+        username
       }
       const token = jwtService.generateToken(payload);
   
