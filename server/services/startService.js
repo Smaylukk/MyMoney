@@ -15,7 +15,7 @@ class StartService{
 
     const euro = await models.Currency.findOne({ where: { code: '978' } })
     if (!euro) {
-      await models.Currency.create({ code: '978', name: 'Гривня', key: '€' })
+      await models.Currency.create({ code: '978', name: 'Євро', key: '€' })
     }
   }
 }
